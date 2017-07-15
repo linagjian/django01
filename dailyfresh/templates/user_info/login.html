@@ -1,14 +1,59 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-<head>
-	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-	<title>天天生鲜-登录</title>
-	<link rel="stylesheet" type="text/css" href="/static/css/reset.css">
-	<link rel="stylesheet" type="text/css" href="/static/css/main.css">
-</head>
-<body>
+{%extends 'user_base.html'%}
+{%block head%}
+	<script>
+		$(function(){
+		    error_name = true;
+		    error_pwd = true;
+		    $('.name_input').blur(function(){
+
+		        uname = $(this).val();
+				if(uname.length<5||uname.length>20){
+				    $(".user_error").html('请输入5-20个字符的用户名').show();
+				    error_name =false;
+				}
+		        else{
+				    $(".user_error").hide();
+				    error_name=true;
+				}
+
+			});
+			$('.pass_input').blur(function(){
+				upwd = $(this).val();
+				if(upwd.length<5||upwd.length>20){
+				    $(".pwd_error").html('密密码最少8位，最长20位').show();
+				    error_pwd =false;
+				}
+		        else{
+				    $(".pass_error").hide();
+				    error_pwd=true;
+				}
+
+			});
+			$('form').submit(function(){
+			    $('.name_input').blur();
+			    $('.pass_input').blur();
+				return error_name && error_pwd;
+
+			});
+			if('{{name_error}}' == '1'){
+		        $(".user_error").html('用户名不存在').show();
+				error_name =false;
+			}
+			if('{{pwd_error}}' == '1'){
+		        $(".pwd_error").html('密码不正确').show();
+				error_pwd =false;
+			}
+
+		})
+
+	</script>
+{%endblock head%}}
+
+
+
+{%block con%}
 	<div class="login_top clearfix">
-		<a href="index.html" class="login_logo"><img src="/static/images/logo02.png"></a>
+		<a href="../goods_info/index.html" class="login_logo"><img src="/static/images/logo02.png"></a>
 	</div>
 
 	<div class="login_form_bg">
@@ -18,16 +63,17 @@
 			<div class="login_form fr">
 				<div class="login_title clearfix">
 					<h1>用户登录</h1>
-					<a href="/register/">立即注册</a>
+					<a href="/user/register/">立即注册</a>
 				</div>
 				<div class="form_input">
-					<form>
-						<input type="text" name="username" class="name_input" placeholder="请输入用户名">
+					<form method="post" action="/user/login01/" >
+						{%csrf_token%}
+						<input type="text" name="username" value='{{uname}}' class="name_input" placeholder="请输入用户名">
 						<div class="user_error">输入错误</div>
 						<input type="password" name="pwd" class="pass_input" placeholder="请输入密码">
 						<div class="pwd_error">输入错误</div>
 						<div class="more_input clearfix">
-							<input type="checkbox" name="">
+							<input type="checkbox" name="jz" value="1" checked="checked">
 							<label>记住用户名</label>
 							<a href="#">忘记密码</a>
 						</div>
@@ -37,20 +83,6 @@
 			</div>
 		</div>
 	</div>
+{%endblock con%}
 
-	<div class="footer no-mp">
-		<div class="foot_link">
-			<a href="#">关于我们</a>
-			<span>|</span>
-			<a href="#">联系我们</a>
-			<span>|</span>
-			<a href="#">招聘人才</a>
-			<span>|</span>
-			<a href="#">友情链接</a>		
-		</div>
-		<p>CopyRight © 2016 北京天天生鲜信息技术有限公司 All Rights Reserved</p>
-		<p>电话：010-****888    京ICP备*******8号</p>
-	</div>
-	
-</body>
-</html>
+

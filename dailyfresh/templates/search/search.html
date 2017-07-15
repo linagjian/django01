@@ -1,0 +1,24 @@
+{%extends 'goods_info/base.html'%}
+
+{%block left%}  {%endblock left%}
+{%block right%}
+    <ul class="goods_type_list clearfix ">
+        {%for g in page%}
+        <li >
+            <a href="/{{g.object.id}}"><img src="/static/{{g.object.gpic}}/"></a>
+            <h4><a href='/user/detail/'>{{g.object.gtitle}}</a></h4>
+            <div class="operate">
+                <span class="prize">￥{{g.object.gprice}}</span>
+                <span class="unit">{{g.object.gprice}}/{{g.object.gunit}}</span>
+                <a href="#" class="add_goods" title="加入购物车"></a>
+            </div>
+        </li>
+        {%endfor%}
+    </ul>
+{%endblock right%}
+
+
+
+
+
+

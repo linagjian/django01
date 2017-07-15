@@ -2,51 +2,65 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
 <head>
 	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-	<title>天天生鲜-用户中心</title>
+	<title>{{title}}--天天生鲜</title>
 	<link rel="stylesheet" type="text/css" href="/static/css/reset.css">
 	<link rel="stylesheet" type="text/css" href="/static/css/main.css">
+	<script type="text/javascript" src="/static/js/jquery-1.12.4.min.js"></script>
+	{%block head%}{%endblock head%}
 </head>
 <body>
+	{%if top|default:'1' == '1'%}
 	<div class="header_con">
 		<div class="header">
 			<div class="welcome fl">欢迎来到天天生鲜!</div>
 			<div class="fr">
-                {%block load_status%}
-
-                {%endblock load_status%}
+				{%if request.session.uid%}
+				<div class="login_btn fl">
+					欢迎您：<em>{{request.session.uname}}</em>
+					<span>|</span>
+					<a href="/user/loginout/">退出</a>
+				</div>
+				{%else%}
+				<div class="login_btn fl">
+					<a href="/user/login/">登录</a>
+					<span>|</span>
+					<a href="/user/register/">注册</a>
+				</div>
+				{%endif%}
 				<div class="user_link fl">
 					<span>|</span>
-					<a href="/user_info/">用户中心</a>
+					<a href="/user/user_info/">用户中心</a>
 					<span>|</span>
+
 					<a href="/cart/">我的购物车</a>
 					<span>|</span>
-					<a href="/user_order/">我的订单</a>
+					<a href="/user/user_order/">我的订单</a>
 				</div>
 			</div>
 		</div>
 	</div>
-
-	<div class="search_bar clearfix">
-		<a href="/index/" class="logo fl"><img src="/static/images/logo.png"></a>
+	{%endif%}
+	{%if left|default:'0' == '1'%}
+	<div class="search_bar clearfix"><form method="get" active="/search/">
+		<a href="/goods/" class="logo fl"><img src="/static/images/logo.png"></a>
 		<div class="sub_page_name fl">|&nbsp;&nbsp;&nbsp;&nbsp;用户中心</div>
 		<div class="search_con fr">
-			<input type="text" class="input_text fl" name="" placeholder="搜索商品">
-			<input type="button" class="input_btn fr" name="" value="搜索">
-		</div>
-	</div>
+			<input type="text" class="input_text fl" name="q" placeholder="搜索商品">
+			<input type="submit" class="input_btn fr" value="搜索">
+		</form></div>
 
+	</div>
 	<div class="main_con clearfix">
 		<div class="left_menu_con clearfix">
 			<h3>用户中心</h3>
-			<ul>
-				<li><a href="/user_info/">· 个人信息</a></li>
-				<li><a href="/user_order/" class="active">· 全部订单</a></li>
-				<li><a href="/user_site/">· 收货地址</a></li>
+			<ul class="menu_list">
+				<li><a href="/user/user_info/" {%if request.path == '/user/user_info/'%} class="active" {%endif%}>· 个人信息</a></li>
+				<li><a href="/user/user_order/"{%if request.path == '/user/user_order/'%} class="active" {%endif%}>· 全部订单</a></li>
+				<li><a href="/user/user_site/"{%if request.path == '/user/user_site/'%} class="active" {%endif%}>· 收货地址</a></li>
 			</ul>
 		</div>
-		{%block right_con%}
-
-        {%endblock right_con%}
+		{%endif%}
+		{%block con%}{%endblock con%}
 	</div>
 
 
